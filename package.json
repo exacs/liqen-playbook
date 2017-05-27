@@ -1,0 +1,25 @@
+{
+  "name": "liqen-playbook",
+  "version": "1.0.0",
+  "description": "A place to test React components with Playbook",
+  "main": "index.js",
+  "scripts": {
+    "prettier": "prettier --single-quote --write \"{.storybook,src,stories}/**/*.js\"",
+    "test:lint": "prettier --single-quote --list-different \"{.storybook,src,stories}/**/*.js\"",
+    "test": "npm run test:lint",
+    "storybook": "start-storybook -p 9001 -c .storybook"
+  },
+  "author": "Carlos Saito",
+  "license": "MIT",
+  "devDependencies": {
+    "@kadira/storybook": "^2.35.3",
+    "eslint": "^3.19.0",
+    "eslint-plugin-prettier": "^2.1.1",
+    "eslint-plugin-react": "^7.0.1",
+    "prettier": "^1.3.1"
+  },
+  "dependencies": {
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  }
+}
