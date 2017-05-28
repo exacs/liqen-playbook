@@ -35,11 +35,11 @@ storiesOf('Highlighter', module)
     <Highlighter
       fragment={{
         prefix: 'This is a text with ',
-        exact: 'an emphasis',
-        suffix: ' inside'
+        exact: '',
+        suffix: 'an emphasis inside'
       }}
     >
-      This is a text with an emphashis inside
+      This is a text with an
     </Highlighter>
   ))
   .add('with pre-selected text 2', () => (
