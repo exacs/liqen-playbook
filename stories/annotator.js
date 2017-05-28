@@ -32,26 +32,69 @@ storiesOf('Highlighter', module)
     </div>
   ))
   .add('with pre-selected text', () => (
-    <Highlighter
-      fragment={{
-        prefix: 'This is a text with ',
-        exact: '',
-        suffix: 'an emphasis inside'
-      }}
-    >
-      This is a text with an
-    </Highlighter>
+    <div>
+      <div>
+        <Highlighter
+          fragment={{
+            prefix: 'This is a text with ',
+            exact: 'an',
+            suffix: ' emphasis inside'
+          }}
+        >
+          This is a text with an emphasis inside
+        </Highlighter>
+      </div>
+      <div>
+        <Highlighter
+          fragment={{
+            prefix: 'This is a text with ',
+            exact: 'an invalid',
+            suffix: ' emphasis inside'
+          }}
+        >
+          This is a text with a non-valid emphasis inside
+        </Highlighter>
+      </div>
+    </div>
   ))
   .add('with pre-selected text 2', () => (
-    <Highlighter
-      fragment={{
-        prefix: 'This is a text with ',
-        exact: 'an emphasis',
-        suffix: ' inside'
-      }}
-    >
-      This is a text <em>with an emphashis</em> inside
-    </Highlighter>
+    <div>
+      <div>
+        <Highlighter
+          fragment={{
+            prefix: 'This is a text with ',
+            exact: 'an emphasis',
+            suffix: ' inside'
+          }}
+        >
+          This is a text <em>with an emphasis</em> inside
+        </Highlighter>
+      </div>
+      <div>
+        <Highlighter
+          fragment={{
+            prefix: 'This is a text with ',
+            exact: 'an emphasis in',
+            suffix: 'side'
+          }}
+        >
+          This is a text <em>with an emphasis</em> inside
+        </Highlighter>
+      </div>
+    </div>
+  ))
+  .add('with pre-selected text 3', () => (
+    <div>
+      <Highlighter
+        fragment={{
+          prefix: 'This is a text with ',
+          exact: 'an emphasis in',
+          suffix: 'side'
+        }}
+      >
+        This is a text <em>with <strong>an</strong> emphasis</em> inside
+      </Highlighter>
+    </div>
   ));
 
 storiesOf('TaggerTooltip', module).add('1', () => <button />);
