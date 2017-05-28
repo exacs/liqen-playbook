@@ -16,10 +16,14 @@ export default class Highlighter extends React.Component {
   }
 
   render() {
-    return <span>{this.props.children}</span>;
+    return (
+      <span>
+        {this.props.children}
+      </span>
+    );
   }
 }
 
 Highlighter.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
 };

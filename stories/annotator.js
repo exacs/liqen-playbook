@@ -3,10 +3,33 @@ import { storiesOf } from '@kadira/storybook';
 import Highlighter from '../src/Highlighter';
 
 storiesOf('Highlighter', module)
-  .add('dumb', () => (
-    <Highlighter>
-      This is a text <em>With an emphashis</em> inside
-    </Highlighter>
+  .add('invalid types', () => (
+    <div>
+      <div>
+        <Highlighter>
+          {5}
+        </Highlighter>
+      </div>
+      <div>
+        <Highlighter>
+          <p>Children is an element</p>
+        </Highlighter>
+      </div>
+    </div>
+  ))
+  .add('dumbs', () => (
+    <div>
+      <div>
+        <Highlighter>
+          Children is a string
+        </Highlighter>
+      </div>
+      <div>
+        <Highlighter>
+          Children is a <em>3-element</em> array
+        </Highlighter>
+      </div>
+    </div>
   ))
   .add('with pre-selected text', () => (
     <Highlighter
@@ -16,7 +39,18 @@ storiesOf('Highlighter', module)
         suffix: ' inside'
       }}
     >
-      This is a text <em>With an emphashis</em> inside
+      This is a text with an emphashis inside
+    </Highlighter>
+  ))
+  .add('with pre-selected text 2', () => (
+    <Highlighter
+      fragment={{
+        prefix: 'This is a text with ',
+        exact: 'an emphasis',
+        suffix: ' inside'
+      }}
+    >
+      This is a text <em>with an emphashis</em> inside
     </Highlighter>
   ));
 
