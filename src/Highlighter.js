@@ -20,7 +20,9 @@ export default class Highlighter extends React.Component {
 
     return (
       <span>
-        {children.map ? renderArray(children) : renderNode(children)}
+        {React.Children.count(children) > 1
+          ? renderArray(children)
+          : renderNode(children)}
       </span>
     );
   }
@@ -41,7 +43,7 @@ function renderNode(e) {
 }
 
 function renderArray(arr) {
-  return arr.map((child, i) => <Highlighter key={i}>{child}</Highlighter>);
+  return React.Children.map(arr, child => <Highlighter>{child}</Highlighter>);
 }
 
 Highlighter.propTypes = {
