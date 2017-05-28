@@ -16,7 +16,7 @@ export default class Highlighter extends React.Component {
   }
 
   render() {
-    return <p>{this.props.children}</p>;
+    return <span>{this.props.children}</span>;
   }
 }
 
