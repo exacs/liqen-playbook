@@ -16,14 +16,38 @@ export default class Highlighter extends React.Component {
   }
 
   render() {
+    const children = this.props.children;
+
     return (
       <span>
-        {this.props.children}
+        {children.map ? renderArray(children) : renderNode(children)}
       </span>
     );
   }
 }
 
+function renderNode(e) {
+  if (typeof e === 'string') {
+    return e;
+  } else if (e.type && e.props && e.props.children) {
+    return React.createElement(
+      e.type,
+      e.props,
+      <Highlighter>{e.props.children}</Highlighter>
+    );
+  } else {
+    return 'You are trying to render something not-valid :(';
+  }
+}
+
+function renderArray(arr) {
+  return arr.map((child, i) => <Highlighter key={i}>{child}</Highlighter>);
+}
+
 Highlighter.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+    PropTypes.node
+  ])
 };
