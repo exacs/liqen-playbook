@@ -97,8 +97,6 @@ storiesOf('Highlighter', module)
     </div>
   ));
 
-storiesOf('TaggerTooltip', module).add('1', () => <button />);
-
-storiesOf('AnnotationSelector', module).add('1', () => <button />);
-
-storiesOf('Annotator', module).add('1', () => <button />);
+// storiesOf('TaggerTooltip', module).add('1', () => <button />);
+// storiesOf('AnnotationSelector', module).add('1', () => <button />);
+// storiesOf('Annotator', module).add('1', () => <button />);
