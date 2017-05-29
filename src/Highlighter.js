@@ -27,6 +27,7 @@ export default class Highlighter extends React.Component {
       const selection = document.getSelection();
 
       if (selection.rangeCount === 0 || !this.node) {
+        this.props.onHighlight({ prefix: '', exact: '', suffix: '' });
         return;
       }
 
@@ -53,6 +54,8 @@ export default class Highlighter extends React.Component {
             { prefix, exact, suffix },
             { top, left, width, height }
           );
+        } else {
+          this.props.onHighlight({ prefix: '', exact: '', suffix: '' });
         }
       }
     };
