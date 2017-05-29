@@ -57,8 +57,25 @@ export default class Highlighter extends React.Component {
         } else {
           this.props.onHighlight({ prefix: '', exact: '', suffix: '' });
         }
+      } else {
+        this.props.onHighlight({ prefix: '', exact: '', suffix: '' });
       }
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    const eq = (p1, p2) =>
+      p1.prefix === p2.prefix &&
+      p1.suffix === p2.suffix &&
+      p1.exact === p2.exact;
+
+    if (
+      this.props.fragment &&
+      prevProps.fragment &&
+      !eq(prevProps.fragment, this.props.fragment)
+    ) {
+      document.getSelection().removeAllRanges();
+    }
   }
 
   render() {
