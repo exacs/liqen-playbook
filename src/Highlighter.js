@@ -1,3 +1,4 @@
+/* global document */
 import React from 'react';
 import PropTypes from 'prop-types';
 import zip from 'lodash/zipWith';
@@ -17,6 +18,46 @@ export default class Highlighter extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    if (!this.props.onHighlight) {
+      return;
+    }
+
+    document.onselectionchange = () => {
+      const selection = document.getSelection();
+
+      if (selection.rangeCount === 0 || !this.node) {
+        return;
+      }
+
+      const exactRange = selection.getRangeAt(0);
+      const ancestor = exactRange.commonAncestorContainer;
+
+      // Check that "this" contains the ancestor
+      if (this.node.contains(ancestor) || this.node.isSameNode(ancestor)) {
+        // Calculate the prefixRange and suffixRange
+        const prefixRange = document.createRange();
+        prefixRange.setStart(this.node, 0);
+        prefixRange.setEnd(exactRange.startContainer, exactRange.startOffset);
+
+        const prefix = prefixRange.toString();
+        const exact = exactRange.toString();
+        const suffix = this.node.textContent.slice(
+          prefix.length + exact.length
+        );
+
+        const { top, left, width, height } = exactRange.getBoundingClientRect();
+
+        if (exact !== '') {
+          this.props.onHighlight(
+            { prefix, exact, suffix },
+            { top, left, width, height }
+          );
+        }
+      }
+    };
+  }
+
   render() {
     const children = this.props.children;
     const text = childrenToString(this.props.children);
@@ -25,7 +66,11 @@ export default class Highlighter extends React.Component {
       : undefined;
 
     return (
-      <span>
+      <span
+        ref={node => {
+          this.node = node;
+        }}
+      >
         {React.Children.count(children) > 1
           ? renderArray(children, fragments)
           : renderNode(children, fragments)}
@@ -91,5 +136,6 @@ Highlighter.propTypes = {
     prefix: PropTypes.string,
     exact: PropTypes.string,
     suffix: PropTypes.string
-  })
+  }),
+  onHighlight: PropTypes.func
 };
