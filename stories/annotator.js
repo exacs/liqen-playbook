@@ -10,11 +10,6 @@ storiesOf('Highlighter', module)
           {5}
         </Highlighter>
       </div>
-      <div>
-        <Highlighter>
-          <p>Children is an element</p>
-        </Highlighter>
-      </div>
     </div>
   ))
   .add('dumbs', () => (
@@ -22,6 +17,11 @@ storiesOf('Highlighter', module)
       <div>
         <Highlighter>
           Children is a string
+        </Highlighter>
+      </div>
+      <div>
+        <Highlighter>
+          <p>Children is an element</p>
         </Highlighter>
       </div>
       <div>
