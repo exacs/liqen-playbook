@@ -5,7 +5,10 @@ import Highlighter from '../src/Highlighter';
 storiesOf('Highlighter actions', module).add('Dumbs', () => (
   <div>
     <p>
-      <Highlighter onHighlight={action('highlight')}>
+      <Highlighter
+        onHighlight={action('highlight')}
+        onUnhighlight={action('unh')}
+      >
         Children is a <em>string</em>
       </Highlighter>
       <span>This text is outside</span>

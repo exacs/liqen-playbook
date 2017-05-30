@@ -17,6 +17,7 @@ export default class Highlighter extends React.Component {
   constructor(props) {
     super(props);
     this.handleSelection = this.handleSelection.bind(this);
+    this.handleUnselection = this.handleUnselection.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +27,10 @@ export default class Highlighter extends React.Component {
       document.addEventListener('click', this.handleSelection);
       document.addEventListener('dblclick', this.handleSelection);
     }
+
+    if (this.props.onUnhighlight) {
+      document.addEventListener('selectionchange', this.handleUnselection);
+    }
   }
 
   componentWillUnmount() {
@@ -34,6 +39,10 @@ export default class Highlighter extends React.Component {
       document.removeEventListener('mouseup', this.handleSelection);
       document.removeEventListener('click', this.handleSelection);
       document.removeEventListener('dblclick', this.handleSelection);
+    }
+
+    if (this.props.onUnhighlight) {
+      document.removeEventListener('selectionchange', this.handleUnselection);
     }
   }
 
@@ -49,6 +58,25 @@ export default class Highlighter extends React.Component {
       !eq(prevProps.fragment, this.props.fragment)
     ) {
       document.getSelection().removeAllRanges();
+    }
+  }
+
+  handleUnselection() {
+    const selection = document.getSelection();
+
+    if (selection.rangeCount === 0 || !this.node) {
+      this.props.onUnhighlight();
+      return;
+    }
+
+    const exactRange = selection.getRangeAt(0);
+    const ancestor = exactRange.commonAncestorContainer;
+
+    if (
+      (!this.node.contains(ancestor) && !this.node.isSameNode(ancestor)) ||
+      exactRange.toString() === ''
+    ) {
+      this.props.onUnhighlight();
     }
   }
 
@@ -158,5 +186,6 @@ Highlighter.propTypes = {
     exact: PropTypes.string,
     suffix: PropTypes.string
   }),
-  onHighlight: PropTypes.func
+  onHighlight: PropTypes.func,
+  onUnhighlight: PropTypes.func
 };

@@ -1,3 +1,4 @@
+/* global document */
 /**
  * Le Grand Annotator
  *
@@ -28,6 +29,7 @@ export default class Annotator extends React.Component {
 
     this.handleSelectAnnotation = this.handleSelectAnnotation.bind(this);
     this.handleHighlight = this.handleHighlight.bind(this);
+    this.handleUnhighlight = this.handleUnhighlight.bind(this);
   }
 
   handleSelectAnnotation(selectedAnnotation) {
@@ -40,12 +42,20 @@ export default class Annotator extends React.Component {
     });
   }
 
+  handleUnhighlight() {
+    this.setState({
+      selectedAnnotation: null,
+      newAnnotation: { target: null }
+    });
+  }
+
   handleSelectTag(tagId) {
     if (this.state.newAnnotation.target) {
       this.props.onCreateAnnotation({
         target: this.state.newAnnotation.target,
         tag: tagId
       });
+      //      console.log(this.state.newAnnotation);
       this.setState({
         selectedAnnotation: null,
         newAnnotation: { target: null }
@@ -60,39 +70,45 @@ export default class Annotator extends React.Component {
 
   render() {
     const selectedTag =
-      !this.state.newAnnotation.target &&
-      this.state.selectedAnnotation &&
-      this.state.selectedAnnotation.tag;
+      this.state.selectedAnnotation && this.state.selectedAnnotation.tag;
 
     const selectedFragment =
       this.state.selectedAnnotation && this.state.selectedAnnotation.target;
 
     return (
-      <div>
-        <div>
-          <h2>Select an annotation</h2>
+      <div
+        style={{
+          position: 'relative'
+        }}
+      >
+        <div
+          style={{
+            marginLeft: '-24px',
+            position: 'absolute'
+          }}
+        >
           <Selector
             list={this.props.annotations}
+            selected={this.state.selectedAnnotation}
             onSelect={annotation => this.handleSelectAnnotation(annotation)}
           />
         </div>
-        <h2>See how the annotation is highglighted</h2>
-        <p>
-          <Highlighter
-            onHighlight={fragment => this.handleHighlight(fragment)}
-            fragment={selectedFragment}
-          >
-            {this.props.children}
-          </Highlighter>
-        </p>
+        <Highlighter
+          onHighlight={fragment => this.handleHighlight(fragment)}
+          onUnhighlight={() => this.handleUnhighlight()}
+          fragment={selectedFragment}
+        >
+          {this.props.children}
+        </Highlighter>
         <h2>And its tag selected</h2>
         <div>
-          <TaggerTooltip
-            list={this.props.tags}
-            selected={selectedTag}
-            onSelect={tag => this.handleSelectTag(tag)}
-            onUnselect={() => this.handleUnselectTag()}
-          />
+          {(selectedTag || this.state.newAnnotation.target) &&
+            <TaggerTooltip
+              list={this.props.tags}
+              selected={selectedTag}
+              onSelect={tag => this.handleSelectTag(tag)}
+              onUnselect={() => this.handleUnselectTag()}
+            />}
         </div>
       </div>
     );

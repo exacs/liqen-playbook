@@ -13,19 +13,52 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const TaggerTooltip = ({ list, selected, onSelect, onUnselect }) => (
-  <div>
+  <div
+    style={{
+      background: '#000',
+      borderRadius: '8px',
+      color: '#FFF',
+      fontFamily: 'sans-serif',
+      padding: '5px'
+    }}
+  >
     {selected
       ? <div>
-          <div>
-            Selected: {list.filter(tag => tag.id === selected)[0].title}
-          </div>
-          <div onClick={() => onUnselect()}>Unselect</div>
+          <button
+            style={{
+              display: 'inline-block',
+              padding: '5px',
+              fontSize: '20px',
+              fontWeight: 'bold'
+            }}
+            onClick={() => onUnselect()}
+          >
+            ×
+          </button>
+          {list.filter(tag => tag.id === selected)[0].title}
         </div>
-      : <ul>
-          {list.map(tag => (
-            <li key={tag.id} onClick={() => onSelect(tag.id)}>{tag.title}</li>
-          ))}
-        </ul>}
+      : <div>
+          <ul
+            style={{
+              padding: 0,
+              margin: 0,
+              listStyle: 'none'
+            }}
+          >
+            {list.map(tag => (
+              <li
+                key={tag.id}
+                style={{
+                  padding: '5px'
+                }}
+              >
+                <button onClick={() => onSelect(tag.id)}>
+                  {tag.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>}
   </div>
 );
 

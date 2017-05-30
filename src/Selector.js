@@ -12,8 +12,31 @@ import PropTypes from 'prop-types';
 
 const Selector = ({ list, selected, onSelect }) => (
   <div>
-    <ul>
-      {list.map(obj => <li key={obj.id} onClick={() => onSelect(obj)}>dot</li>)}
+    <ul
+      style={{
+        listStyle: 'none',
+        padding: 0,
+        margin: 0,
+        fontFamily: 'sans-serif',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        color: '#CCC'
+      }}
+    >
+      {list.map(obj => (
+        <li
+          key={obj.id}
+          style={
+            selected && selected.id === obj.id
+              ? {
+                  color: 'green'
+                }
+              : {}
+          }
+        >
+          <button onClick={() => onSelect(obj)}>*</button>
+        </li>
+      ))}
     </ul>
   </div>
 );
