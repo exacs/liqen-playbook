@@ -8,6 +8,7 @@ function loadStories() {
   require('../stories/tagger.js');
   require('../stories/selector.js');
   require('../stories/annotator.js');
+  require('../stories/annotator-stateful.js');
   // You can require as many stories as you need.
 }
 
