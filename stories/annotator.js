@@ -1,8 +1,8 @@
 import React from 'react';
-import { storiesOf } from '@kadira/storybook';
+import { storiesOf, action } from '@kadira/storybook';
 import Annotator from '../src/Annotator';
 
-storiesOf('Annotator', module).add('input', () => (
+storiesOf('Annotator', module).add('input and output', () => (
   <div>
     <Annotator
       annotations={[
@@ -30,6 +30,8 @@ storiesOf('Annotator', module).add('input', () => (
         { id: 2, title: 'Tag 2' },
         { id: 3, title: 'Tag 3' }
       ]}
+      onCreateAnnotation={action('create annotation')}
+      onDeleteAnnotation={action('remove annotation')}
     >
       <p>This is a highlightable text</p>
     </Annotator>

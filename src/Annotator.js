@@ -20,19 +20,49 @@ export default class Annotator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedAnnotation: null
+      selectedAnnotation: null,
+      newAnnotation: {
+        target: null
+      }
     };
 
     this.handleSelectAnnotation = this.handleSelectAnnotation.bind(this);
+    this.handleHighlight = this.handleHighlight.bind(this);
   }
 
   handleSelectAnnotation(selectedAnnotation) {
     this.setState({ selectedAnnotation });
   }
 
+  handleHighlight(fragment) {
+    this.setState({
+      newAnnotation: { target: fragment }
+    });
+  }
+
+  handleSelectTag(tagId) {
+    if (this.state.newAnnotation.target) {
+      this.props.onCreateAnnotation({
+        target: this.state.newAnnotation.target,
+        tag: tagId
+      });
+      this.setState({
+        selectedAnnotation: null,
+        newAnnotation: { target: null }
+      });
+    }
+  }
+
+  handleUnselectTag() {
+    this.props.onDeleteAnnotation(this.state.selectedAnnotation);
+    this.setState({ selectedAnnotation: null });
+  }
+
   render() {
     const selectedTag =
-      this.state.selectedAnnotation && this.state.selectedAnnotation.tag;
+      !this.state.newAnnotation.target &&
+      this.state.selectedAnnotation &&
+      this.state.selectedAnnotation.tag;
 
     const selectedFragment =
       this.state.selectedAnnotation && this.state.selectedAnnotation.target;
@@ -49,7 +79,7 @@ export default class Annotator extends React.Component {
         <h2>See how the annotation is highglighted</h2>
         <p>
           <Highlighter
-            onHighlight={(fragment, node) => {}}
+            onHighlight={fragment => this.handleHighlight(fragment)}
             fragment={selectedFragment}
           >
             {this.props.children}
@@ -57,7 +87,12 @@ export default class Annotator extends React.Component {
         </p>
         <h2>And its tag selected</h2>
         <div>
-          <TaggerTooltip list={this.props.tags} selected={selectedTag} />
+          <TaggerTooltip
+            list={this.props.tags}
+            selected={selectedTag}
+            onSelect={tag => this.handleSelectTag(tag)}
+            onUnselect={() => this.handleUnselectTag()}
+          />
         </div>
       </div>
     );
@@ -67,5 +102,7 @@ export default class Annotator extends React.Component {
 Annotator.propTypes = {
   annotations: PropTypes.array,
   tags: PropTypes.array,
-  children: PropTypes.node
+  children: PropTypes.node,
+  onCreateAnnotation: PropTypes.func,
+  onDeleteAnnotation: PropTypes.func
 };
