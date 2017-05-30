@@ -16,51 +16,25 @@ import split from './split';
 export default class Highlighter extends React.Component {
   constructor(props) {
     super(props);
+    this.handleSelection = this.handleSelection.bind(this);
   }
 
   componentDidMount() {
-    if (!this.props.onHighlight) {
-      return;
+    if (this.props.onHighlight) {
+      document.addEventListener('keyup', this.handleSelection);
+      document.addEventListener('mouseup', this.handleSelection);
+      document.addEventListener('click', this.handleSelection);
+      document.addEventListener('dblclick', this.handleSelection);
     }
+  }
 
-    document.onselectionchange = () => {
-      const selection = document.getSelection();
-
-      if (selection.rangeCount === 0 || !this.node) {
-        this.props.onHighlight({ prefix: '', exact: '', suffix: '' });
-        return;
-      }
-
-      const exactRange = selection.getRangeAt(0);
-      const ancestor = exactRange.commonAncestorContainer;
-
-      // Check that "this" contains the ancestor
-      if (this.node.contains(ancestor) || this.node.isSameNode(ancestor)) {
-        // Calculate the prefixRange and suffixRange
-        const prefixRange = document.createRange();
-        prefixRange.setStart(this.node, 0);
-        prefixRange.setEnd(exactRange.startContainer, exactRange.startOffset);
-
-        const prefix = prefixRange.toString();
-        const exact = exactRange.toString();
-        const suffix = this.node.textContent.slice(
-          prefix.length + exact.length
-        );
-
-        const { top, left, width, height } = exactRange.getBoundingClientRect();
-
-        if (exact !== '') {
-          this.props.onHighlight(
-            { prefix, exact, suffix },
-            { top, left, width, height }
-          );
-        } else {
-          this.props.onHighlight({ prefix: '', exact: '', suffix: '' });
-        }
-      } else {
-        this.props.onHighlight({ prefix: '', exact: '', suffix: '' });
-      }
-    };
+  componentWillUnmount() {
+    if (this.props.onHighlight) {
+      document.removeEventListener('keyup', this.handleSelection);
+      document.removeEventListener('mouseup', this.handleSelection);
+      document.removeEventListener('click', this.handleSelection);
+      document.removeEventListener('dblclick', this.handleSelection);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -75,6 +49,38 @@ export default class Highlighter extends React.Component {
       !eq(prevProps.fragment, this.props.fragment)
     ) {
       document.getSelection().removeAllRanges();
+    }
+  }
+
+  handleSelection() {
+    const selection = document.getSelection();
+
+    if (selection.rangeCount === 0 || !this.node) {
+      this.props.onHighlight({ prefix: '', exact: '', suffix: '' });
+      return;
+    }
+
+    const exactRange = selection.getRangeAt(0);
+    const ancestor = exactRange.commonAncestorContainer;
+
+    // Check that "this" contains the ancestor
+    if (this.node.contains(ancestor) || this.node.isSameNode(ancestor)) {
+      // Calculate the prefixRange and suffixRange
+      const prefixRange = document.createRange();
+      prefixRange.setStart(this.node, 0);
+      prefixRange.setEnd(exactRange.startContainer, exactRange.startOffset);
+
+      const prefix = prefixRange.toString();
+      const exact = exactRange.toString();
+      const suffix = this.node.textContent.slice(prefix.length + exact.length);
+
+      if (exact !== '') {
+        this.props.onHighlight({ prefix, exact, suffix }, exactRange);
+      } else {
+        this.props.onHighlight({ prefix: '', exact: '', suffix: '' });
+      }
+    } else {
+      this.props.onHighlight({ prefix: '', exact: '', suffix: '' });
     }
   }
 
