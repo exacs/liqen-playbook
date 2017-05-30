@@ -16,25 +16,26 @@ const Selector = ({ list, selected, onSelect }) => (
       style={{
         listStyle: 'none',
         padding: 0,
-        margin: 0,
-        fontFamily: 'sans-serif',
-        fontSize: '24px',
-        fontWeight: 'bold',
-        color: '#CCC'
+        margin: 0
       }}
     >
       {list.map(obj => (
-        <li
-          key={obj.id}
-          style={
-            selected && selected.id === obj.id
-              ? {
-                  color: 'green'
-                }
-              : {}
-          }
-        >
-          <button onClick={() => onSelect(obj)}>*</button>
+        <li key={obj.id}>
+          <button
+            style={{
+              background: 'none',
+              border: 0,
+              fontFamily: 'sans-serif',
+              fontSize: '24px',
+              fontWeight: 'bold',
+              color: selected && selected.id === obj.id ? 'green' : '#CCC',
+              outline: 'none',
+              cursor: 'pointer'
+            }}
+            onClick={() => onSelect(obj)}
+          >
+            *
+          </button>
         </li>
       ))}
     </ul>

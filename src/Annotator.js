@@ -55,7 +55,8 @@ export default class Annotator extends React.Component {
         target: this.state.newAnnotation.target,
         tag: tagId
       });
-      //      console.log(this.state.newAnnotation);
+
+      document.getSelection().removeAllRanges();
       this.setState({
         selectedAnnotation: null,
         newAnnotation: { target: null }

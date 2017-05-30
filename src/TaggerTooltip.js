@@ -15,21 +15,26 @@ import PropTypes from 'prop-types';
 const TaggerTooltip = ({ list, selected, onSelect, onUnselect }) => (
   <div
     style={{
-      background: '#000',
-      borderRadius: '8px',
       color: '#FFF',
       fontFamily: 'sans-serif',
-      padding: '5px'
+      fontWeight: 'bold',
+      background: '#000',
+      borderRadius: '5px'
     }}
   >
     {selected
       ? <div>
           <button
             style={{
+              color: '#FFF',
               display: 'inline-block',
               padding: '5px',
               fontSize: '20px',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              background: 'none',
+              border: 0,
+              cursor: 'pointer',
+              outline: 'none'
             }}
             onClick={() => onUnselect()}
           >
@@ -52,7 +57,19 @@ const TaggerTooltip = ({ list, selected, onSelect, onUnselect }) => (
                   padding: '5px'
                 }}
               >
-                <button onClick={() => onSelect(tag.id)}>
+                <button
+                  style={{
+                    color: '#FFF',
+                    fontFamily: 'sans-serif',
+                    fontWeight: 'bold',
+                    padding: '5px',
+                    background: 'none',
+                    border: 0,
+                    cursor: 'pointer',
+                    outline: 'none'
+                  }}
+                  onClick={() => onSelect(tag.id)}
+                >
                   {tag.title}
                 </button>
               </li>
