@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import Highlighter from '../src/Highlighter';
+import Highlighter from '../src/highlighter/Highlighter';
 
 storiesOf('Highlighter', module)
   .add('invalid types', () => (

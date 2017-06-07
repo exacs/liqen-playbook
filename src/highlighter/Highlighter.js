@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import zip from 'lodash/zipWith';
-import split from './split';
+import split from './lib/split';
 
 /**
  * Highlight a text and handles the highlighting action

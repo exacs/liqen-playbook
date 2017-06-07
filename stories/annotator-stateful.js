@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import Annotator from '../src/Annotator';
+import Annotator from '../src/highlighter/Annotator';
 
 const tags = [
   { id: 1, title: 'Tag 1' },
@@ -45,7 +45,7 @@ class Stateful extends React.Component {
       <div
         style={{
           maxWidth: '720px',
-          margin: '30px',
+          margin: '0px',
           fontFamily: 'Georgia'
         }}
       >

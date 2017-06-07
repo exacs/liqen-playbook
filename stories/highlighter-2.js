@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
-import Highlighter from '../src/Highlighter';
+import Highlighter from '../src/highlighter/Highlighter';
 
 storiesOf('Highlighter actions', module).add('Dumbs', () => (
   <div>

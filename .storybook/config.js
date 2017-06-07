@@ -9,6 +9,11 @@ function loadStories() {
   require('../stories/selector.js');
   require('../stories/annotator.js');
   require('../stories/annotator-stateful.js');
+
+  require('../stories/progress-bar.js');
+
+  require('../stories/selectable-annotation.js');
+  require('../stories/liqen-creator.js');
   // You can require as many stories as you need.
 }
 

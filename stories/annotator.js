@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
-import Annotator from '../src/Annotator';
+import Annotator from '../src/highlighter/Annotator';
 
 storiesOf('Annotator', module).add('input and output', () => (
   <div>

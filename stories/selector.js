@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
-import Selector from '../src/Selector';
+import Selector from '../src/highlighter/Selector';
 
 storiesOf('Selector', module).add('ii', () => (
   <Selector

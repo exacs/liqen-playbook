@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
-import TaggerTooltip from '../src/TaggerTooltip';
+import TaggerTooltip from '../src/highlighter/Tagger';
 
 class WithState extends React.Component {
   constructor() {

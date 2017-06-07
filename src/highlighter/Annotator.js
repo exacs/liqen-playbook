@@ -9,12 +9,12 @@
  * - onAnnotate()  - Create an annotation (tag + target)
  */
 
-// import Popper from 'popper.js';
+import Popper from 'popper.js';
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import Highlighter from './Highlighter';
-import TaggerTooltip from './TaggerTooltip';
+import TaggerTooltip from './Tagger';
 import Selector from './Selector';
 
 export default class Annotator extends React.Component {
@@ -34,11 +34,17 @@ export default class Annotator extends React.Component {
 
   handleSelectAnnotation(selectedAnnotation) {
     this.setState({ selectedAnnotation });
+    this.popper = new Popper(this.paragraph, this.tooltip, {
+      placement: 'right-start'
+    });
   }
 
-  handleHighlight(fragment) {
+  handleHighlight(fragment, range) {
     this.setState({
       newAnnotation: { target: fragment }
+    });
+    this.popper = new Popper(range, this.tooltip, {
+      placement: 'right-start'
     });
   }
 
@@ -79,7 +85,8 @@ export default class Annotator extends React.Component {
     return (
       <div
         style={{
-          position: 'relative'
+          position: 'relative',
+          margin: '30px'
         }}
       >
         <div
@@ -94,22 +101,34 @@ export default class Annotator extends React.Component {
             onSelect={annotation => this.handleSelectAnnotation(annotation)}
           />
         </div>
-        <Highlighter
-          onHighlight={fragment => this.handleHighlight(fragment)}
-          onUnhighlight={() => this.handleUnhighlight()}
-          fragment={selectedFragment}
-        >
-          {this.props.children}
-        </Highlighter>
+        <div ref={node => (this.paragraph = node)}>
+          <Highlighter
+            onHighlight={(fragment, range) =>
+              this.handleHighlight(fragment, range)}
+            onUnhighlight={() => this.handleUnhighlight()}
+            fragment={selectedFragment}
+          >
+            {this.props.children}
+          </Highlighter>
+        </div>
         <h2>And its tag selected</h2>
-        <div>
-          {(selectedTag || this.state.newAnnotation.target) &&
-            <TaggerTooltip
-              list={this.props.tags}
-              selected={selectedTag}
-              onSelect={tag => this.handleSelectTag(tag)}
-              onUnselect={() => this.handleUnselectTag()}
-            />}
+        <div ref={node => (this.tooltip = node)}>
+          <div
+            style={{
+              position: 'absolute',
+              left: '-30px',
+              top: '-41px',
+              width: '100px'
+            }}
+          >
+            {(selectedTag || this.state.newAnnotation.target) &&
+              <TaggerTooltip
+                list={this.props.tags}
+                selected={selectedTag}
+                onSelect={tag => this.handleSelectTag(tag)}
+                onUnselect={() => this.handleUnselectTag()}
+              />}
+          </div>
         </div>
       </div>
     );
